@@ -36,21 +36,10 @@ function bind({ Service, Characteristic, bridge, accessory, node, values }) {
   } else {
     // in case device doesn't have the switch binary class
     on
-      .on('set', (value, cb) => bridge.getValue(valueId, (err, level) => {
-        if (err) {
-          return cb(err);
-        }
-
-        if (value && level === 0) {
-          return bridge.setValue(valueId, 100, cb);
-        }
-
-        if (!value && level !== 0) {
-          return bridge.setValue(valueId, 0, cb);
-        }
-
-        cb();
-      }))
+      .on('set', (value, cb) => {
+        bridge.setValue(valueId, value ? 0xFF : 0x00, cb);
+        setTimeout(bridge.refreshValue.bind(bridge, valueId, null), 5000);
+      })
       .on('get', cb => bridge.getValue(valueId, (err, value) =>
         cb(err, value >= 1)
       ));
