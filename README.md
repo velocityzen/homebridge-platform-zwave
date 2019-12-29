@@ -70,6 +70,7 @@ If you want to customize exposed accessories, add `accessories` to your config. 
 - values – map of `valueId: value` to set the initial value.
 - parameters – map of `parameterId: value` to set the initial value.
 - valuesMaps – map of `valueId: valueMaps` to map a value from Z-Wave to HomeKit.
+- hints – set of strings to help better understand the device.
 
 You can also set the node config to `false` to ignore the node (device) entirely.
 
