@@ -27,8 +27,8 @@ class Platform {
 
   createController(config) {
     this.controller = new Controller(config, {
-      onFailed: e => this.onConstrollerFailed(e),
-      onReady: () => this.onConstrollerReady(),
+      onFailed: e => this.onControllerFailed(e),
+      onReady: () => this.onControllerReady(),
       onScanComplete: () => this.onScanComplete(),
       onNodeAdded: nodeId => this.onNodeAdded(nodeId),
       onNodeAvailable: (...args) => this.onNodeAvailable(...args),
@@ -51,12 +51,12 @@ class Platform {
     this.accessories.set(accessory.UUID, accessory);
   }
 
-  onConstrollerFailed(e) {
-    this.controller && this.controller.disconect();
+  onControllerFailed(e) {
+    this.controller && this.controller.disconnect();
     this.log.error('Failed to setup Z-Wave network constroller', e);
   }
 
-  onConstrollerReady(homeid) {
+  onControllerReady(homeid) {
     this.log.info('Controller ready. Scanning...', homeid || '');
   }
 
