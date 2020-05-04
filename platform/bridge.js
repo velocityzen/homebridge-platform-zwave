@@ -16,6 +16,10 @@ module.exports = class Bridge extends EventEmitter {
     );
   }
 
+  refreshValue(valueId, cb) {
+    this.platform.refreshNodeValue(valueId, cb);
+  }
+
   onValueChanged(valueId, cb) {
     this.on(`value.${valueId}.changed`, cb);
   }

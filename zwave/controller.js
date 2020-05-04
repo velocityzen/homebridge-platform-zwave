@@ -130,6 +130,26 @@ class Controller {
     }
   }
 
+  refreshNodeValue(valueId, cb) {
+    try {
+      const args = valueId.split('-').map(Number);
+      const node = this.nodes.get(args[0]);
+      this.driver.refreshValue.apply(this.driver, args);
+
+      if (cb) {
+        cb(null);
+      }
+    } catch (e) {
+      console.log('refresh node value error', e);
+      if (cb) {
+        cb(e);
+        return;
+      }
+
+      throw e;
+    }
+  }
+
   addNode(isSecure, cbs = {}) {
     this.beginControllerCommand('addNode', [ isSecure ], cbs);
   }

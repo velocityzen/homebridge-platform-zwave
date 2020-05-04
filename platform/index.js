@@ -157,6 +157,11 @@ class Platform {
     }
   }
 
+  refreshNodeValue(valueId, cb) {
+    this.log.debug('refresh node value', valueId);
+    this.controller.refreshNodeValue(valueId, cb);
+  }
+
   setNodeParameters(node, parameters) {
     if (!parameters) {
       return
