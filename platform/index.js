@@ -270,7 +270,7 @@ class Platform {
       this.accessories.delete(id);
     });
 
-    delete this.cleanupAccessoriesIds;
+    this.cleanupAccessoriesIds.clear();
 
     if (!accessories.length) {
       return
