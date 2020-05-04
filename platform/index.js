@@ -45,6 +45,7 @@ class Platform {
   init() {
     this.cleanupAccessoriesIds = new Set(this.accessories.keys());
     this.controller.connect();
+    this.cleanupIgnoredAccessories();
   }
 
   configureAccessory(accessory) {
@@ -278,6 +279,27 @@ class Platform {
 
     this.log.info('Deleting ${accessories.length} accessories');
     this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, accessories);
+  }
+
+  cleanupIgnoredAccessories() {
+    Object.entries(this.accessoryConfigs).forEach(([ id, config ]) => {
+      if(config !== false) {
+        return;
+      }
+
+      const accessoryId = this.getAccessoryId({ id });
+      const accessory = this.accessories.get(accessoryId);
+
+      if(!accessory) {
+        return;
+      }
+
+      try {
+        this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [ accessory ]);
+      } catch (e) {
+        this.log.error('Failed to unregister ignored accessory', e);
+      }
+    });
   }
 
   getAccessoryId({ id }) {
