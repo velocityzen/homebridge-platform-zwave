@@ -3,7 +3,7 @@
 [![NPM Version](https://img.shields.io/npm/v/homebridge-platform-zwave.svg?style=flat-square)](https://www.npmjs.com/package/homebridge-platform-zwave)
 [![NPM Downloads](https://img.shields.io/npm/dt/homebridge-platform-zwave.svg?style=flat-square)](https://www.npmjs.com/package/homebridge-platform-zwave)
 
-Homebrdige plugin for Open Z-Wave devices. The main goal of this project is to map Z-Wave protocol command classes to HomeKit Accessories, Services, and Characteristics. Theoretically, it should make it support any Open Z-Wave device.
+Homebridge plugin for Open Z-Wave devices. The main goal of this project is to map Z-Wave protocol command classes to HomeKit Accessories, Services, and Characteristics. Theoretically, it should make it support any Open Z-Wave device.
 
 ## Supported Z-Wave Command Classes
 
