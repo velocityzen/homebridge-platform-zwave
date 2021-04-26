@@ -4,7 +4,8 @@ const zWaveClasses = require('../zwave');
 function configureAccessory({ Service, Characteristic, accessory, bridge, node, config = {} }) {
   const {
     classes: deviceClasses = {},
-    ignoreClasses = []
+    ignoreClasses = [],
+    hints = []
   } = config;
   const nodeValues = node.values;
 
@@ -27,7 +28,8 @@ function configureAccessory({ Service, Characteristic, accessory, bridge, node, 
       bridge,
       accessory,
       node,
-      values: [ ...values ].map(id => nodeValues.get(id))
+      values: [ ...values ].map(id => nodeValues.get(id)),
+      hints: new Set(hints || [])
     });
   });
 

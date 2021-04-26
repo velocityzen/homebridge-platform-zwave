@@ -16,24 +16,25 @@ const index = {
   targetValue: 9
 }
 
-function bind({ Service, Characteristic, bridge, accessory, node, values }) {
+function bind({ Service, Characteristic, bridge, accessory, node, values, hints }) {
   const switchBinaryValues = getClassValues(node, switchBinaryClassId);
   const switchBinaryValue = getValueByIndex(switchBinaryValues, switchBinaryIndex.level);
   const switchBinaryValueId = switchBinaryValue ? switchBinaryValue.value_id : null;
 
   const { value_id: valueId } = getValueByIndex(values, index.level);
 
-  const serviceLightbulb = getOrAddService(accessory, Service.Lightbulb);
-  const on = serviceLightbulb.getCharacteristic(Characteristic.On);
-  const brightness = serviceLightbulb.getCharacteristic(Characteristic.Brightness);
+  const isFan = hints.has('fan');
+  const serviceLightbulb = getOrAddService(accessory, isFan ? Service.Fanv2 : Service.Lightbulb);
+  const on = isFan ? null : serviceLightbulb.getCharacteristic(Characteristic.On);
+  const brightness = serviceLightbulb.getCharacteristic(isFan ? Characteristic.RotationSpeed : Characteristic.Brightness);
 
-  if (switchBinaryValueId) {
+  if (on && switchBinaryValueId) {
     on
       .on('set', (value, cb) => bridge.setValue(switchBinaryValueId, value, cb))
       .on('get', cb => bridge.getValue(switchBinaryValueId, cb));
 
     bridge.onValueChanged(switchBinaryValueId, value => on.updateValue(value));
-  } else {
+  } else if(on) {
     // in case device doesn't have the switch binary class
     on
       .on('set', (value, cb) => {
@@ -50,13 +51,13 @@ function bind({ Service, Characteristic, bridge, accessory, node, values }) {
     .on('get', cb => bridge.getValue(valueId, cb));
 
   // if device has switchBinary class as well sync it too
-  const serviceSwitch = accessory.getService(Service.Switch);
+  const serviceSwitch = on && accessory.getService(Service.Switch);
   const switchOn = serviceSwitch && serviceSwitch.getCharacteristic(Characteristic.On);
 
   bridge.onValueChanged(valueId, value => {
     const onState = value >= 1;
     brightness.updateValue(value);
-    on.updateValue(onState);
+    on && on.updateValue(onState);
     switchOn && switchOn.updateValue(onState);
   });
 }
