@@ -1,3 +1,5 @@
+# Depricated! Use [node-red](https://nodered.org) instead.
+
 # homebridge-platform-zwave
 
 [![NPM Version](https://img.shields.io/npm/v/homebridge-platform-zwave.svg?style=flat-square)](https://www.npmjs.com/package/homebridge-platform-zwave)
