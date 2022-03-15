@@ -1,4 +1,4 @@
-# Depricated! Use [node-red](https://nodered.org) instead.
+# Deprecated! Use [node-red](https://nodered.org) instead.
 
 # homebridge-platform-zwave
 
